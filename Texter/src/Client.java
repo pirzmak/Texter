@@ -5,36 +5,39 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Client {
+public class Client extends User{
 	private Socket socket;
-	private PrintWriter out;
-    private BufferedReader in;
-
-
-	public Client() {
-		connect();
+	
+	public Client() 
+	{
+		super();
+		
 		try {
 			out = new PrintWriter(socket.getOutputStream(), true);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
 			in = new BufferedReader(
-			        new InputStreamReader(socket.getInputStream()));
+					new InputStreamReader(socket.getInputStream()));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.err.println("Cos sie popsulo na porcie: 4444 ." + e);
 			e.printStackTrace();
 		}
 	}
 	
-
-	public Socket getSocket() {
-		return socket;
+	public Client(String n) 
+	{
+		super(n);
+		
+		try {
+			out = new PrintWriter(socket.getOutputStream(), true);
+			in = new BufferedReader(
+					new InputStreamReader(socket.getInputStream()));
+		} catch (IOException e) {
+			System.err.println("Cos sie popsulo na porcie: 4444 ." + e);
+			e.printStackTrace();
+		}
 	}
 	
-
-	public void connect() {
+	public void connect() 
+	{
 		try {
 			socket = new Socket("localhost", 4443);
 
@@ -48,7 +51,8 @@ public class Client {
 		}
 	}
 	
-	public void disconnect() {
+	public void disconnect() 
+	{
 		try {
 			socket.close();
 		} catch (IOException e) {
@@ -56,23 +60,8 @@ public class Client {
 		}
 	}
 	
-	public String toString() {
-		return new String("Client");
-	}
-	
-	public void write(String msg) {
-		
-		out.println(msg);	               
-	       
-	}
-	
-	public String read(){
-		try {
-			return in.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return "";
+	public Socket getSocket() 
+	{
+		return socket;
 	}	
-	
 }

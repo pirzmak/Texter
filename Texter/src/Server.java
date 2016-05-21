@@ -1,34 +1,49 @@
 import java.net.*;
 import java.io.*;
  
-public class Server {
-	
+public class Server extends User{	
 	private Socket clientSocket;
 	private ServerSocket serverSocket;
-	private PrintWriter out;
-	private String m;
-	BufferedReader in;
 	
-	public Server() {
-		connect();
+	
+	public Server() 
+	{
+		super();
+		
 		try {
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		} catch (IOException e) {
+			System.err.println("Cos sie popsulo na porcie: 4444 ." + e);
 			e.printStackTrace();
 		}
 	}
 	
-	private void createConnection() {
+	public Server(String n) 
+	{
+		super(n);
+		
 		try {
-			serverSocket = new ServerSocket(4443);
+			out = new PrintWriter(clientSocket.getOutputStream(), true);
+			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		} catch (IOException e) {
+			System.err.println("Cos sie popsulo na porcie: 4444 ." + e);
+			e.printStackTrace();
+		}
+	}
+	
+	private void createConnection() 
+	{
+		try {
+			serverSocket = new ServerSocket(4444);
 		} catch (IOException e) {
 			System.err.println("Cos sie popsulo na porcie: 4444 ." + e);
 			System.exit(1);
 		}
 	}
 	
-	private void closeConnection() {
+	private void closeConnection() 
+	{
 		try {
 			serverSocket.close();
 		} catch (IOException e) {
@@ -37,13 +52,14 @@ public class Server {
 	}
 	
 	
-	public void connect() {
+	public void connect() 
+	{
 		createConnection();
 		
 		try {
 			clientSocket = serverSocket.accept();
 			
-			System.out.println("Lo kurwa polaczenie! " 
+			System.out.println("Polaczenie! " 
 					+ "IP: "
 					+ clientSocket.getInetAddress()
 					+ ", port: "
@@ -55,8 +71,6 @@ public class Server {
 			System.exit(1);
 		}
 	}
-
-
 	
 	public void disconnect() {
 		try {
@@ -67,31 +81,9 @@ public class Server {
 		
 		closeConnection();
 	}
-
-
 	
 	public Socket getSocket() {
 		return clientSocket;
 	}
 	
-	
-	public String toString() {
-		return new String("Server");
-	}
-	
-
-	public void write(String msg) {
-		
-		out.println(msg);	               
-	       
-	}
-	
-	public String read(){
-		try {
-			return in.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return "";
-	}
 }
