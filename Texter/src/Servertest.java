@@ -9,29 +9,43 @@ import javax.swing.JTextPane;
 
 public class Servertest {
 	
-	
-	public static void main(String[] args) {
+		private User user;
+		private View view;
 		
-		final Server server = new Server();
-		final View2 view = new View2();
+		public Servertest(String n,boolean a)
+		{
+			if(a)user = new Server(n);
+			else user = new Client(n);
+			view = new View();
+			
+		}
 		
-		
-		view.getButton().addActionListener(new ActionListener(){
+		public void run(){	
+			
+			view.getButton().addActionListener(new ActionListener()
+			{
 				public void actionPerformed(ActionEvent e)
 				{
-					server.write(view.getMessage());
-					System.out.println("a");
+					if(user.getLastT()==1)user.write(view.getMessage("  "));
+					else 
+						{
+							user.write(view.getMessage("a: "));
+							user.setLastT(1); 
+						}
 				}
-		});
-		String msg="";
-		while(true)
-		{
-			msg=server.read();
-			if(msg.length()!=0)
+			});
+			
+			String msg="";
+			while(true)
 			{
-				view.setPane(msg);
+				msg=user.read();
+				if(user.getLastT()==2)view.setPane(msg,"  ");
+				else 
+					{
+						view.setPane(msg,"b: ");
+						user.setLastT(2); 
+					}
 			}
-		}
+		};
 
-	}
 }

@@ -4,10 +4,18 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-
+/**
+ * Klasa User ze strony klienta. Dodany
+ * socket i przedefinowane funkcje do 
+ * utworzenia polaczenia
+ */
 public class Client extends User{
+	
 	private Socket socket;
 	
+	/**
+	 * Konstruktor
+	 */
 	public Client() 
 	{
 		super();
@@ -22,6 +30,9 @@ public class Client extends User{
 		}
 	}
 	
+	/**
+	 * Konstruktor z nazwa
+	 */
 	public Client(String n) 
 	{
 		super(n);
@@ -36,12 +47,13 @@ public class Client extends User{
 		}
 	}
 	
+	/**
+	 * Nawiazanie polaczenia
+	 */
 	public void connect() 
 	{
 		try {
-			socket = new Socket("localhost", 4443);
-
-
+			socket = new Socket("localhost", 4444);
 		} catch (UnknownHostException e) {
 			System.err.println("Nikogo tu nie ma " + e);
 			System.exit(1);
@@ -50,7 +62,9 @@ public class Client extends User{
 			System.exit(1);
 		}
 	}
-	
+	/**
+	 * Zerwanie polaczenia
+	 */
 	public void disconnect() 
 	{
 		try {
@@ -60,6 +74,9 @@ public class Client extends User{
 		}
 	}
 	
+	/**
+	 * pobranie socket
+	 */
 	public Socket getSocket() 
 	{
 		return socket;

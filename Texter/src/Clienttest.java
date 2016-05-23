@@ -5,18 +5,24 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 public class Clienttest {
+	
 
 	public static void main(String[] args) {
 		final Client client = new Client();
 		
-		final View2 view = new View2();
+		final View view = new View();
 		
 		
 		
 		view.getButton().addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e)
 				{
-					client.write(view.getMessage());
+					if(client.getLastT()==1)client.write(view.getMessage("  "));
+					else 
+						{
+							client.write(view.getMessage("a: "));
+							client.setLastT(1); 
+						}
 				}
 		});
 		String msg;
@@ -25,7 +31,12 @@ public class Clienttest {
 			msg=client.read();
 			if(msg.length()!=0)
 			{
-				view.setPane(msg);
+				if(client.getLastT()==2)view.setPane(msg,"  ");
+				else 
+					{
+						view.setPane(msg,"b: ");
+						client.setLastT(2); 
+					}
 			}
 		}
 	}

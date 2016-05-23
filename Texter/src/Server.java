@@ -36,6 +36,7 @@ public class Server extends User{
 	{
 		try {
 			serverSocket = new ServerSocket(4444);
+			
 		} catch (IOException e) {
 			System.err.println("Cos sie popsulo na porcie: 4444 ." + e);
 			System.exit(1);
@@ -64,7 +65,6 @@ public class Server extends User{
 					+ clientSocket.getInetAddress()
 					+ ", port: "
 					+ clientSocket.getPort());
-
 
 		} catch (IOException e) {
 			System.err.println("Cos sie popsulo. Nie bylo mnie slychac" + e);
