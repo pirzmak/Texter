@@ -6,7 +6,23 @@ import java.net.Socket;
 
 /**
  * Klasa abstrakcyjna zawierajaca
- * glowne funkcje uzytkownika
+ * glowne funkcje uzytkownika :
+ * 
+ * Nawiazanie polaczenia
+ * Pisanie
+ * Czytanie
+ * Pobranie komponentow (nazwa, nazwa 2 rozmowcy, socket)
+ * 
+ * Uzywana przez klasy Server i Client
+ * 
+ * @see Server
+ * @see Client
+ * @see #connect(String, int)
+ * @see #getName()
+ * @see #getNameSecond()
+ * @see #setNameSecond(String)
+ * 
+ * @author Szymon 
  */
 public abstract class User {
 	
@@ -20,36 +36,43 @@ public abstract class User {
 	 */
     public User()
     {
-		connect();		
+		connect("localhost",4444);		
 		name="noname";
 	}
     
     /**
 	 * Konstruktor z nazwa
+	 * 
+	 * @param n      n - nazwa uzytkownika
+	 * @param ip     ip - adres drugiego uzytkownika
+	 * @param port   port - numer portu aktualizowany automatycznie
 	 */
-    public User(String n)
+    public User(String n,String ip,int port)
     {
-		connect();
+		connect(ip,port);
 		name=n;
 	}
     
     /**
 	 * Nawiazanie polaczenia
+	 * 
+	 * @param ip     ip - adres drugiego uzytkownika
+	 * @param port   port - numer portu aktualizowany automatycznie
 	 */
-    abstract public void connect();
+    abstract public void connect(String ip,int port);
     
-    /**
-	 * Zakaczenie polaczenia
-	 */
-	abstract public void disconnect();
-	
+    
 	/**
 	 * Pobranie gniazda
+	 * 
+	 * @return socket
 	 */
 	abstract public Socket getSocket();
 	
 	/**
 	 * Pobranie nazwy
+	 * 
+	 * @return nazwa uzytkownika
 	 */
 	public String getName()
 	{
@@ -58,12 +81,18 @@ public abstract class User {
 	
 	/**
 	 * Pobranie nazwy rozmowcy
+	 * 
+	 * @return nazwa 2 rozmowcy
 	 */
 	public String getNameSecond()
 	{
 		return nameSecond;
 	}
-	
+	/**
+	 * ustawienie nazwy rozmowcy
+	 * 
+	 * @param n  n - nazwa 2 uzytkownika
+	 */
 	public void setNameSecond(String n)
 	{
 		nameSecond=n;
@@ -71,6 +100,8 @@ public abstract class User {
 	
 	/**
 	 * Pisanie wiadomosci do 2 uzytkownika
+	 * 
+	 * @param msg  msg-nowa wiadomosc
 	 */
 	public void write(String msg) 
 	{	
@@ -79,6 +110,9 @@ public abstract class User {
 	
 	/**
 	 * Czytanie wiadomosciod 2 uzytkownika
+	 * jezeli brak to rowne ""
+	 * 
+	 * @return odzczytana wiadomosc
 	 */
 	public String read()
 	{

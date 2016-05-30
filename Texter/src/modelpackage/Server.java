@@ -1,12 +1,23 @@
 package modelpackage;
 import java.net.*;
 import java.io.*;
- 
+/**
+ * Klasa User ze strony servera. Dodany
+ * socket i przedefinowane funkcje do 
+ * utworzenia polaczenia
+ * 
+ * @see Client
+ * @see User
+ * 
+ * @author Szymon
+ */
 public class Server extends User{	
 	private Socket clientSocket;
 	private ServerSocket serverSocket;
 	
-	
+	/**
+	 * Konstruktor
+	 */	
 	public Server() 
 	{
 		super();
@@ -20,9 +31,17 @@ public class Server extends User{
 		}
 	}
 	
-	public Server(String n) 
+	 /**
+	 * Konstruktor z nazwa
+	 * 
+	 * @param n      n - nazwa uzytkownika
+	 * @param ip     ip - adres drugiego uzytkownika
+	 * @param port   port - numer portu aktualizowany automatycznie
+	 * 
+	 */
+	public Server(String n,String ip,int port) 
 	{
-		super(n);
+		super(n,ip,port);
 		
 		try {
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -33,10 +52,14 @@ public class Server extends User{
 		}
 	}
 	
-	private void createConnection() 
+	/**
+	 * Stworzenie nowego servra aby klient mogl
+	 * nawiazac polaczenie
+	 */
+	private void createConnection(int port) 
 	{
 		try {
-			serverSocket = new ServerSocket(4444);
+			serverSocket = new ServerSocket(port);
 			
 		} catch (IOException e) {
 			System.err.println("Cos sie popsulo na porcie: 4444 ." + e);
@@ -44,19 +67,18 @@ public class Server extends User{
 		}
 	}
 	
-	private void closeConnection() 
-	{
-		try {
-			serverSocket.close();
-		} catch (IOException e) {
-			System.err.println(e);
-		}
-	}
+	/**
+	 * Nawiazanie polaczenia
+	 * 
+	 * @param ip     ip - adres drugiego uzytkownika
+	 * @param port   port - numer portu aktualizowany automatycznie
+	 * 
+	 * @see #User#connect(String, int)
+	 */
 	
-	
-	public void connect() 
+	public void connect(String ip,int port)  
 	{
-		createConnection();
+		createConnection(port);
 		
 		try {
 			clientSocket = serverSocket.accept();
@@ -73,16 +95,12 @@ public class Server extends User{
 		}
 	}
 	
-	public void disconnect() {
-		try {
-			clientSocket.close();
-		} catch (IOException e) {
-			System.err.println(e);
-		}
-		
-		closeConnection();
-	}
-	
+	/**
+	 * pobranie socket
+	 * 
+	 * @see #User{@link #connect(String, int)}
+	 */
+	@Override 
 	public Socket getSocket() {
 		return clientSocket;
 	}
